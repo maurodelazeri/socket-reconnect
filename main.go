@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/sirupsen/logrus"
 )
 
@@ -17,7 +16,13 @@ func main() {
 		r = "http://127.0.0.1:8545"
 	}
 	logrus.Infoln("Streaming started")
-	client, err := ethclient.Dial(r)
+
+	client, err := NewSafeClient(r)
+	if err != nil {
+		logrus.Infoln("cannot connect to geth :%s err=%s", r, err)
+		return
+	}
+
 	if err != nil {
 		logrus.Error("Stream:", err.Error())
 	}
