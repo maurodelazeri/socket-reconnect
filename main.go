@@ -35,6 +35,7 @@ func main() {
 		select {
 		case err := <-sub.Err():
 			logrus.Error("Stream:", err.Error())
+			continue
 		case header := <-headers:
 			block, err := client.BlockByHash(context.Background(), header.Hash())
 			if err != nil {
